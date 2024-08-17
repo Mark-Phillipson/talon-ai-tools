@@ -2,7 +2,6 @@
 # https://github.com/phillco/talon-axkit/blob/main/dictation/dictation_context.py
 
 from talon import Context, Module, ui
-from talon.types import Span
 
 ctx = Context()
 ctx.matches = r"""
@@ -22,7 +21,6 @@ class GenericActions:
 
 @ctx.action_class("user")
 class Actions:
-
     def a11y_get_context_of_editor(selection: str) -> str:
         """Creates a `AccessibilityContext` representing the state of the document"""
 
@@ -33,14 +31,14 @@ class Actions:
         except RuntimeError:
             return ""
 
-        if not el or not el.attrs:
+        if not el or not el.attrs:  # type: ignore Talon doesn't properly type hint this
             return ""
 
         # Only return extra context if we are in an editor
-        if not el.get("AXRoleDescription") == "editor":
+        if not el.get("AXRoleDescription") == "editor":  # type: ignore Talon doesn't properly type hint this
             return ""
 
-        context = el.get("AXValue")
+        context = el.get("AXValue")  # type: ignore
 
         if context is None:
             print(
